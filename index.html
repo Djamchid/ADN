@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Quête de l'ADN : Percer le Secret de la Vie</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f7f6;
+            color: #333;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+        h2 {
+            color: #34495e;
+            font-size: 1.8em;
+            margin-top: 25px;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        .year {
+            font-style: italic;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            display: block;
+            text-align: center;
+        }
+        .text {
+            margin-bottom: 25px;
+            text-align: justify;
+        }
+        .formula {
+            font-weight: bold;
+            color: #e67e22;
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 10px;
+            background-color: #fef5eb;
+            border-left: 5px solid #e67e22;
+        }
+        .choices {
+            list-style: none;
+            padding: 0;
+            margin-top: 20px;
+        }
+        .choices li {
+            background-color: #ecf0f1;
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .choices li:hover {
+            background-color: #dbe4e6;
+        }
+        .choices button {
+            background: none;
+            border: none;
+            color: #2980b9;
+            font-size: 1em;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            padding: 0;
+            font-family: inherit;
+        }
+        .choices button:hover {
+            text-decoration: underline;
+        }
+        .progress-bar-container {
+            width: 100%;
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            margin-top: 30px;
+            height: 20px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background-color: #27ae60;
+            border-radius: 5px;
+            text-align: center;
+            color: white;
+            line-height: 20px;
+            transition: width 0.5s ease-in-out;
+        }
+        .ending {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        .ending.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .ending.failure {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .restart-button {
+            display: block;
+            margin: 30px auto 0;
+            padding: 15px 30px;
+            font-size: 1.1em;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .restart-button:hover {
+            background-color: #217dbb;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>La Quête de l'ADN : Percer le Secret de la Vie</h1>
+        <div id="story-content">
+            </div>
+        <div class="progress-bar-container">
+            <div class="progress-bar" id="progress-bar">0%</div>
+        </div>
+    </div>
+
+    <script>
+        const storyData = {
+            "start": {
+                "id": "mendel_debut",
+                "title": "Prologue : Les Mystères de l'Hérédité",
+                "year": "1860 - Brünn, Autriche-Hongrie (aujourd'hui Brno, République Tchèque)",
+                "text": "Vous incarnez Gregor Mendel, un moine et scientifique passionné. Depuis des années, vous observez comment les traits sont transmis d'une génération à l'autre, un mystère que la science de votre époque peine à élucider. Vous êtes convaincu que des lois fondamentales régissent ce processus. Pour percer ce secret, vous devez choisir votre sujet d'étude.",
+                "formula": "Hérédité = Transmission des traits",
+                "choices": [
+                    {
+                        "text": "A. Étudier la transmission des caractères chez les pois, faciles à cultiver et avec des traits distincts.",
+                        "next": "mendel_lois",
+                        "progress": 5
+                    },
+                    {
+                        "text": "B. Observer les croisements de souris, plus complexes mais potentiellement plus proches de l'homme.",
+                        "next": "mendel_echec_souris",
+                        "progress": 5
+                    },
+                    {
+                        "text": "C. Vous concentrer sur les abeilles, avec leur organisation sociale intrigante.",
+                        "next": "mendel_echec_abeilles",
+                        "progress": 5
+                    }
+                ],
+                "progress": 0
+            },
+            "mendel_lois": {
+                "id": "mendel_lois",
+                "title": "Chapitre 1 : Les Lois de l'Hérédité",
+                "year": "1865 - Brünn, Autriche-Hongrie",
+                "text": "Après des milliers de croisements de pois méticuleusement enregistrés, vos données sont incontestables. Les traits ne se mélangent pas, ils sont transmis sous forme de 'facteurs' discrets, qui se séparent et se combinent selon des ratios précis. Vous avez découvert les lois fondamentales de l'hérédité !",
+                "formula": "Lois de Mendel : Ségrégation & Assortiment Indépendant",
+                "choices": [
+                    {
+                        "text": "A. Publier vos résultats, espérant qu'ils transforment la compréhension de la biologie.",
+                        "next": "miescher_decouverte",
+                        "progress": 15
+                    },
+                    {
+                        "text": "B. Continuer vos expériences pour affiner vos découvertes avant de les rendre publiques.",
+                        "next": "mendel_delai",
+                        "progress": 15
+                    }
+                ],
+                "progress": 10
+            },
+            "mendel_echec_souris": {
+                "id": "mendel_echec_souris",
+                "title": "Échec : La Complexité des Souris",
+                "year": "1862 - Brünn, Autriche-Hongrie",
+                "text": "Les souris se révèlent être un choix malheureux. Leur cycle de reproduction est plus long, et leurs traits sont bien plus difficiles à isoler et à suivre. Vos expériences deviennent confuses et vous peinez à en tirer des conclusions claires. Vous réalisez que la simplicité des pois aurait été préférable.",
+                "ending": "failure",
+                "progress": 8
+            },
+            "mendel_echec_abeilles": {
+                "id": "mendel_echec_abeilles",
+                "title": "Échec : L'Énigme des Abeilles",
+                "year": "1863 - Brünn, Autriche-Hongrie",
+                "text": "La génétique des abeilles, avec leur reproduction haplodiploïde, est bien trop complexe pour les outils de votre époque. Vous êtes submergé par la difficulté et ne parvenez pas à établir de lois générales. Votre quête s'arrête ici.",
+                "ending": "failure",
+                "progress": 8
+            },
+            "mendel_delai": {
+                "id": "mendel_delai",
+                "title": "Déviation : Un Délai Malheureux",
+                "year": "1868 - Brünn, Autriche-Hongrie",
+                "text": "Vous décidez de peaufiner vos recherches. Malheureusement, vos travaux ne sont pas immédiatement reconnus et tombent dans l'oubli pendant des décennies. L'impact de vos découvertes sur la science sera retardé. D'autres devront redécouvrir ce que vous aviez déjà prouvé.",
+                "choices": [
+                    {
+                        "text": "Continuer vers la prochaine étape de la découverte de l'ADN, qui a lieu sans que vos travaux ne soient pleinement reconnus au départ.",
+                        "next": "miescher_decouverte",
+                        "progress": 18
+                    }
+                ],
+                "progress": 12
+            },
+            "miescher_decouverte": {
+                "id": "miescher_decouverte",
+                "title": "Chapitre 2 : La \"Nucléine\", une Substance Inconnue",
+                "year": "1869 - Tübingen, Allemagne",
+                "text": "Vous êtes Friedrich Miescher, un jeune médecin suisse travaillant sur la composition chimique des cellules. En analysant le pus de pansements chirurgicaux (riche en leucocytes), vous isolez une substance étrange provenant du noyau des cellules. Elle contient du phosphore et résiste à la dégradation par la pepsine, une enzyme digestive. Vous l'appelez la 'nucléine'. Que faites-vous de cette découverte ?",
+                "formula": "Nucléine = Composant du noyau, riche en phosphore",
+                "choices": [
+                    {
+                        "text": "A. Vous vous concentrez sur l'analyse chimique approfondie de cette 'nucléine'.",
+                        "next": "miescher_analyse",
+                        "progress": 25
+                    },
+                    {
+                        "text": "B. Vous la considérez comme une simple curiosité et revenez à d'autres recherches plus conventionnelles.",
+                        "next": "miescher_echec_ignorance",
+                        "progress": 25
+                    }
+                ],
+                "progress": 20
+            },
+            "miescher_analyse": {
+                "id": "miescher_analyse",
+                "title": "Chapitre 3 : Une Molécule Unique",
+                "year": "1871 - Bâle, Suisse",
+                "text": "Votre analyse chimique révèle que la nucléine est une molécule unique, distincte des protéines, riche en azote et en phosphore. Sa composition et sa localisation suggèrent qu'elle pourrait jouer un rôle fondamental dans la cellule, bien que son importance exacte reste floue. Vous avez jeté les bases de la biochimie des acides nucléiques.",
+                "formula": "Acide nucléique = Polymère de nucléotides",
+                "choices": [
+                    {
+                        "text": "A. Continuer à documenter les propriétés de cette nouvelle classe de molécules.",
+                        "next": "adn_nature_chimique_intro",
+                        "progress": 35
+                    },
+                    {
+                        "text": "B. Vous tournez vers d'autres projets, laissant à d'autres le soin d'explorer sa fonction.",
+                        "next": "miescher_echec_lassitude",
+                        "progress": 35
+                    }
+                ],
+                "progress": 30
+            },
+            "miescher_echec_ignorance": {
+                "id": "miescher_echec_ignorance",
+                "title": "Échec : Une Opportunité Manquée",
+                "year": "1870 - Tübingen, Allemagne",
+                "text": "Vous décidez que la 'nucléine' est intéressante, mais sans doute pas le cœur de la biologie cellulaire. Vous la mettez de côté pour des recherches jugées plus urgentes. Une découverte majeure vous échappe, et la quête de la vie sera retardée.",
+                "ending": "failure",
+                "progress": 28
+            },
+            "miescher_echec_lassitude": {
+                "id": "miescher_echec_lassitude",
+                "title": "Échec : L'Épuisement de la Recherche",
+                "year": "1872 - Bâle, Suisse",
+                "text": "Les difficultés de l'analyse chimique sont immenses pour l'époque. Vous êtes épuisé par ce travail fastidieux et décidez de vous retirer de cette voie de recherche. La 'nucléine' restera une curiosité pour un temps, son potentiel non réalisé.",
+                "ending": "failure",
+                "progress": 38
+            },
+            "adn_nature_chimique_intro": {
+                "id": "adn_nature_chimique_intro",
+                "title": "Chapitre 4 : La Nature du Matériel Génétique",
+                "year": "1920-1940 - Divers laboratoires mondiaux",
+                "text": "Le début du 20e siècle voit la génétique progresser, mais la nature chimique du matériel génétique reste un sujet de débat intense. Les protéines, avec leur complexité apparente, sont les favorites. Pourtant, certains indices commencent à pointer vers les acides nucléiques. La question est cruciale : qui est le porteur de l'information héréditaire ?",
+                "formula": "Protéines vs. Acides Nucléiques",
+                "choices": [
+                    {
+                        "text": "A. Examiner les expériences qui tentent de transférer des traits héréditaires entre organismes.",
+                        "next": "griffith_experience",
+                        "progress": 45
+                    },
+                    {
+                        "text": "B. Se concentrer sur les hypothèses soutenant les protéines comme matériel génétique.",
+                        "next": "adn_echec_proteines",
+                        "progress": 45
+                    }
+                ],
+                "progress": 40
+            },
+            "adn_echec_proteines": {
+                "id": "adn_echec_proteines",
+                "title": "Échec : La Piste des Protéines",
+                "year": "1935 - Divers laboratoires",
+                "text": "Vous vous accrochez à l'idée que les protéines sont la clé de l'hérédité, leur diversité fonctionnelle semblant les désigner comme les candidats parfaits. Vous ignorez ou minimisez les rares indices qui pointent vers l'ADN. Cette voie vous mène à une impasse, et vous manquez les découvertes décisives qui suivent.",
+                "ending": "failure",
+                "progress": 48
+            },
+            "griffith_experience": {
+                "id": "griffith_experience",
+                "title": "Chapitre 5 : Le Principe Transformant",
+                "year": "1928 - Londres, Royaume-Uni",
+                "text": "Vous suivez les travaux de Frederick Griffith, qui démontre que des bactéries inoffensives peuvent devenir virulentes en présence d'extraits de bactéries virulentes tuées par la chaleur. Il y a un 'principe transformant' à l'œuvre. Mais de quoi s'agit-il ?",
+                "formula": "Transformation bactérienne = Transfert d'un \"principe\"",
+                "choices": [
+                    {
+                        "text": "A. Poursuivre les recherches pour identifier la nature chimique de ce 'principe transformant'.",
+                        "next": "avery_maccleod_mccarty",
+                        "progress": 55
+                    },
+                    {
+                        "text": "B. Considérer cette transformation comme un phénomène biologique complexe, mais pas nécessairement lié au matériel génétique principal.",
+                        "next": "griffith_echec_interprétation",
+                        "progress": 55
+                    }
+                ],
+                "progress": 50
+            },
+            "griffith_echec_interprétation": {
+                "id": "griffith_echec_interprétation",
+                "title": "Échec : Une Interprétation Erronée",
+                "year": "1930 - Londres, Royaume-Uni",
+                "text": "Vous interprétez les résultats de Griffith comme une simple modification environnementale, pas un transfert de matériel génétique. Votre vision restrictive vous empêche de voir la forêt pour les arbres, et la véritable nature de l'hérédité vous échappe encore.",
+                "ending": "failure",
+                "progress": 58
+            },
+            "avery_maccleod_mccarty": {
+                "id": "avery_maccleod_mccarty",
+                "title": "Chapitre 6 : L'ADN est le Matériel Génétique",
+                "year": "1944 - New York, États-Unis",
+                "text": "Vous êtes Oswald Avery, Colin MacLeod et Maclyn McCarty. Votre équipe purifie le 'principe transformant' et démontre de manière convaincante qu'il s'agit de l'ADN, et non des protéines. Vous utilisez des enzymes qui dégradent spécifiquement l'ADN ou les protéines pour prouver votre point. C'est une révolution, mais la communauté scientifique reste sceptique. Comment réagissez-vous ?",
+                "formula": "ADN = Principe transformant",
+                "choices": [
+                    {
+                        "text": "A. Publier vos résultats avec force et persévérer dans la démonstration, cherchant des confirmations indépendantes.",
+                        "next": "hershey_chase",
+                        "progress": 65
+                    },
+                    {
+                        "text": "B. Face au scepticisme, vous hésitez à pousser plus loin, laissant la conclusion floue.",
+                        "next": "avery_echec_scepticisme",
+                        "progress": 65
+                    }
+                ],
+                "progress": 60
+            },
+            "avery_echec_scepticisme": {
+                "id": "avery_echec_scepticisme",
+                "title": "Échec : Le Poids du Scepticisme",
+                "year": "1945 - New York, États-Unis",
+                "text": "Le scepticisme ambiant vous décourage. La plupart des scientifiques préfèrent encore croire aux protéines. Vous ne poussez pas suffisamment fort, et votre découverte, bien que cruciale, ne parvient pas à convaincre la majorité. La route vers l'ADN est freinée.",
+                "ending": "failure",
+                "progress": 68
+            },
+            "hershey_chase": {
+                "id": "hershey_chase",
+                "title": "Chapitre 7 : La Confirmation Inéluctable",
+                "year": "1952 - Cold Spring Harbor, États-Unis",
+                "text": "Vous observez les travaux d'Alfred Hershey et Martha Chase, qui utilisent des bactériophages (virus infectant les bactéries) marqués radioactivement. Ils démontrent que c'est l'ADN des virus, et non leurs protéines, qui entre dans la cellule hôte et dirige la production de nouveaux virus. C'est la preuve définitive : l'ADN est bien le matériel génétique !",
+                "formula": "Expérience de Hershey-Chase : ADN injecté, pas protéine",
+                "choices": [
+                    {
+                        "text": "A. Vous reconnaissez l'importance capitale de cette découverte et vous mettez à chercher la structure de cette molécule porteuse de vie.",
+                        "next": "franklin_wilkins_intro",
+                        "progress": 75
+                    }
+                ],
+                "progress": 70
+            },
+            "franklin_wilkins_intro": {
+                "id": "franklin_wilkins_intro",
+                "title": "Chapitre 8 : La Photo Révélatrice",
+                "year": "1951 - King's College London, Royaume-Uni",
+                "text": "Vous incarnez maintenant Maurice Wilkins et Rosalind Franklin. Franklin, une experte en cristallographie aux rayons X, produit des images de diffraction de l'ADN d'une qualité inégalée, notamment la célèbre \"Photo 51\", qui suggère une structure hélicoïdale. Cependant, les relations au sein de l'équipe sont tendues, et la collaboration difficile. Pendant ce temps, deux jeunes chercheurs à Cambridge s'intéressent aussi à l'ADN...",
+                "formula": "Diffraction aux rayons X : Indices d'hélice",
+                "choices": [
+                    {
+                        "text": "A. Attendre que toutes les analyses de Franklin soient terminées et publiées formellement.",
+                        "next": "watson_crick_arrivee",
+                        "progress": 80
+                    }
+                ],
+                "progress": 78
+            },
+            "watson_crick_arrivee": {
+                "id": "watson_crick_arrivee",
+                "title": "Chapitre 9 : La Course à la Double Hélice",
+                "year": "1952 - Cambridge, Royaume-Uni",
+                "text": "Vous incarnez désormais James Watson et Francis Crick. Vous êtes impatients de découvrir la structure de l'ADN, une quête qui vous semble de plus en plus pressante. Vous savez que Linus Pauling, un chimiste de renom, est aussi sur le point de proposer un modèle. Maurice Wilkins, du King's College, vous a montré une photo de diffraction aux rayons X de l'ADN (Photo 51) et un rapport de Franklin sans leur consentement explicite. Vous avez maintenant une information capitale en main. Comment agissez-vous ?",
+                "formula": "La Structure de l'ADN : Le Saint Graal",
+                "choices": [
+                    {
+                        "text": "A. Utiliser ces informations cruciales pour accélérer vos propres travaux de modélisation.",
+                        "next": "choix_modele",
+                        "progress": 85
+                    },
+                    {
+                        "text": "B. Refuser d'utiliser des données obtenues sans consentement et attendre des publications formelles ou une collaboration éthique.",
+                        "next": "franklin_ethique",
+                        "progress": 85
+                    }
+                ],
+                "progress": 82
+            },
+            "franklin_ethique": {
+                "id": "franklin_ethique",
+                "title": "Déviation : Le Chemin de l'Éthique",
+                "year": "1953 - Cambridge, Royaume-Uni",
+                "text": "Vous décidez de respecter l'éthique scientifique et de ne pas utiliser les données non publiées de Franklin. Vous intensifiez vos propres expériences et analyses, mais cela prend plus de temps. Pendant ce temps, Linus Pauling, ou même un autre chercheur, pourrait devancer votre découverte. Le risque est grand, mais votre intégrité est sauve.",
+                "formula": "Éthique > Vitesse",
+                "choices": [
+                    {
+                        "text": "A. Continuer vos recherches, en espérant que votre propre approche soit rapide et efficace.",
+                        "next": "fin_echec_temps",
+                        "progress": 90
+                    }
+                ],
+                "progress": 88
+            },
+            "choix_modele": {
+                "id": "choix_modele",
+                "title": "Chapitre 10 : L'Assemblage du Puzzle",
+                "year": "1953 - Cambridge, Royaume-Uni",
+                "text": "Avec toutes les données à votre disposition (y compris les indices cruciaux de Franklin, délibérément ou non), vous construisez des modèles en carton et fil de fer. Les pièces du puzzle sont là : les bases (A, T, C, G), le squelette sucre-phosphate, la densité de l'ADN... Vous avez plusieurs idées de structures. Laquelle est la bonne ?",
+                "formula": "Bases + Sucre-Phosphate = Structure de l'ADN",
+                "choices": [
+                    {
+                        "text": "A. Une hélice simple, avec les bases à l'extérieur.",
+                        "next": "fin_echec_modele",
+                        "progress": 95
+                    },
+                    {
+                        "text": "B. Une triple hélice, comme celle proposée par Pauling (mais il s'est trompé sur les liaisons hydrogène).",
+                        "next": "fin_echec_modele",
+                        "progress": 95
+                    },
+                    {
+                        "text": "C. Une double hélice, avec les bases complémentaires (A-T, C-G) appariées à l'intérieur.",
+                        "next": "fin_succes",
+                        "progress": 95
+                    },
+                    {
+                        "text": "D. Une double hélice, mais avec des appariements de bases aléatoires à l'intérieur.",
+                        "next": "fin_echec_modele",
+                        "progress": 95
+                    }
+                ],
+                "progress": 92
+            },
+            "fin_succes": {
+                "id": "fin_succes",
+                "title": "Épilogue : Le Secret de la Vie Révélé",
+                "year": "1953 - Cambridge, Royaume-Uni",
+                "text": "Félicitations ! Vous avez fait le bon choix. La structure en double hélice avec l'appariement spécifique des bases (A avec T, C avec G) est la solution ! Ce modèle élégant non seulement explique comment l'ADN stocke l'information génétique, mais aussi comment il peut se répliquer, une étape fondamentale pour la vie. Votre découverte, publiée dans Nature en avril 1953, révolutionne la biologie et ouvre la voie à la génétique moderne. Vous avez percé le secret de la vie !",
+                "formula": "Double Hélice = Réplication & Hérédité",
+                "ending": "success",
+                "progress": 100
+            },
+            "fin_echec_modele": {
+                "id": "fin_echec_modele",
+                "title": "Échec : Une Structure Incorrecte",
+                "year": "1953 - Cambridge, Royaume-Uni",
+                "text": "Malheureusement, le modèle que vous avez choisi ne correspond pas aux données expérimentales et aux principes chimiques. Les bases ne s'apparient pas correctement, ou la structure n'est pas stable. Votre publication est rejetée ou ignorée, et la course est perdue. D'autres équipes finiront par trouver la bonne solution avant vous. Le secret de la vie vous échappe.",
+                "ending": "failure",
+                "progress": 98
+            },
+            "fin_echec_temps": {
+                "id": "fin_echec_temps",
+                "title": "Échec : La Course Perdue",
+                "year": "1954 - Cambridge, Royaume-Uni",
+                "text": "Malgré votre éthique irréprochable, le temps a manqué. Votre approche, plus lente, vous a coûté la primauté. Pendant que vous persévériez, Linus Pauling ou une autre équipe a publié la structure correcte de l'ADN. Vous avez contribué à la science, mais le moment de gloire vous a échappé.",
+                "ending": "failure",
+                "progress": 98
+            }
+        };
+
+        let currentNodeId = "start";
+        const storyContentDiv = document.getElementById("story-content");
+        const progressBar = document.getElementById("progress-bar");
+
+        function renderNode(nodeId) {
+            const node = storyData[nodeId];
+            if (!node) {
+                storyContentDiv.innerHTML = "<p>Erreur: Node introuvable.</p>";
+                return;
+            }
+
+            let html = `<h2>${node.title}</h2>`;
+            html += `<span class="year">${node.year}</span>`;
+            html += `<p class="text">${node.text}</p>`;
+
+            if (node.formula) {
+                html += `<div class="formula">${node.formula}</div>`;
+            }
+
+            if (node.choices) {
+                html += `<ul class="choices">`;
+                node.choices.forEach(choice => {
+                    html += `<li><button onclick="choose('${choice.next}', ${choice.progress})">${choice.text}</button></li>`;
+                });
+                html += `</ul>`;
+            }
+
+            if (node.ending) {
+                html += `<div class="ending ${node.ending}">`;
+                if (node.ending === "success") {
+                    html += `VICTOIRE ! ${node.text}`;
+                } else {
+                    html += `ÉCHEC ! ${node.text}`;
+                }
+                html += `</div>`;
+                html += `<button class="restart-button" onclick="restartStory()">Recommencer l'aventure</button>`;
+            }
+
+            storyContentDiv.innerHTML = html;
+            updateProgressBar(node.progress);
+        }
+
+        function choose(nextId, progress) {
+            currentNodeId = nextId;
+            renderNode(currentNodeId);
+            updateProgressBar(progress);
+        }
+
+        function updateProgressBar(progress) {
+            progressBar.style.width = `${progress}%`;
+            progressBar.textContent = `${progress}%`;
+        }
+
+        function restartStory() {
+            currentNodeId = "start";
+            renderNode(currentNodeId);
+        }
+
+        // Initial rendering
+        renderNode(currentNodeId);
+    </script>
+</body>
+</html>
